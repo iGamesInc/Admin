@@ -46,6 +46,18 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="external_url">External URL</label>
+                    <div class="gh-input-icon gh-icon-link-external">
+                        {{svg-jar "external"}}
+                        <GhTextInput
+                            @class="post-setting-external-url"
+                            @id="external_url"
+                            @name="post-setting-external-url"
+                            @value="{{this.externalUrlValue}}" />
+                    </div>
+                </div>
+
+                <div class="form-group">
                     {{#if (or this.post.isDraft this.post.isPublished this.post.pastScheduledTime)}}
                         <label>Publish date</label>
                     {{else}}

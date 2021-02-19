@@ -39,6 +39,7 @@ export default Component.extend(SettingsMenuMixin, {
     twitterDescriptionScratch: alias('post.twitterDescriptionScratch'),
     twitterTitleScratch: alias('post.twitterTitleScratch'),
     slugValue: boundOneWay('post.slug'),
+    externalUrlValue: alias('post.externalUrl'),
 
     facebookDescription: or('ogDescriptionScratch', 'customExcerptScratch', 'seoDescription', 'post.excerpt', 'settings.description', ''),
     facebookImage: or('post.ogImage', 'post.featureImage'),
@@ -178,6 +179,30 @@ export default Component.extend(SettingsMenuMixin, {
                     this.showError(error);
                     this.post.rollbackAttributes();
                 });
+        },
+
+        setExternalUrl(url) {
+            // Grab the post and current stored external url
+            let post = this.post;
+            let currentUrl = post.get('externalUrl');
+
+            // If the title entered matches the stored url, do nothing
+            if (currentUrl === url) {
+                return;
+            }
+
+            // If the title entered is different, set it as the new twitter title
+            post.set('externalUrl', url);
+
+            // Make sure the external url is valid and if so, save it into the post
+            return post.validate({property: 'externalUrl'}).then(() => {
+                if (post.get('isNew')) {
+                    return;
+                }
+
+                return this.savePost.perform();
+            });
+
         },
 
         setPublishedAtBlogDate(date) {
