@@ -202,7 +202,6 @@ export default Component.extend(SettingsMenuMixin, {
 
                 return this.savePost.perform();
             });
-
         },
 
         setPublishedAtBlogDate(date) {
