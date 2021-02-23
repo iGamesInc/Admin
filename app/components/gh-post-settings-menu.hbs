@@ -45,17 +45,18 @@
                     <GhUrlPreview @slug={{this.slugValue}} @tagName="p" @classNames="description" />
                 </div>
 
-                <div class="form-group">
-                    <label for="external_url">External URL</label>
-                    <div class="gh-input-icon gh-icon-link-external">
-                        {{svg-jar "external"}}
-                        <GhTextInput
-                            @class="post-setting-external-url"
-                            @id="external_url"
-                            @name="post-setting-external-url"
-                            @value="{{this.externalUrlValue}}" />
-                    </div>
-                </div>
+                <GhFormGroup @errors={{this.post.errors}} @hasValidated={{this.post.hasValidated}} @property="externalUrl">
+                    <label for="externalUrl">External URL</label>
+                    <GhTextInput
+                        @class="post-setting-externalUrl"
+                        @name="post-setting-externalUrl"
+                        @value={{readonly this.externalUrlScratch}}
+                        @input={{action (mut this.externalUrlScratch) value="target.value"}}
+                        @focus-out={{action "setExternalUrl" this.externalUrlScratch}}
+                        @stopEnterKeyDownPropagation="true"
+                        data-test-field="externalUrl" />
+                    <GhErrorMessage @errors={{this.post.errors}} @property="externalUrl" />
+                </GhFormGroup>
 
                 <div class="form-group">
                     {{#if (or this.post.isDraft this.post.isPublished this.post.pastScheduledTime)}}
